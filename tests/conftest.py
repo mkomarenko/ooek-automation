@@ -3,7 +3,7 @@ from selenium.webdriver.chrome import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-@pytest.yield_fixture(scope="session", autouse=True)
+@pytest.yield_fixture(scope="module", autouse=True)
 def driver():
     web_driver = webdriver.WebDriver(executable_path=ChromeDriverManager().install())
     yield web_driver

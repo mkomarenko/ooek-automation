@@ -7,6 +7,5 @@ class TestLogin(BaseTest):
     def test_should_login(self, driver, credentials):
         login_page = LoginPage(driver)
         login_page.open()
-        login_page.do_login(credentials)
-        assert HomePage(driver).is_loaded()
-
+        home_page = login_page.do_login(credentials)
+        assert home_page.is_loaded()
