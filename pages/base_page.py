@@ -4,20 +4,21 @@ from typing import List
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+logger = logging.getLogger("app")
 
 
 class BasePage(object):
-
-    url = ''
 
     def __init__(self, driver: WebDriver) -> None:
         self.logger = logging.getLogger("app")
         self.driver = driver
 
-    def open(self) -> None:
-        self.driver.get(self.url)
+    def open(self, url) -> None:
+        self.driver.get(url)
+        logger.info("Open url: {}".format(url))
 
     def get_current_url(self) -> str:
         return self.driver.current_url

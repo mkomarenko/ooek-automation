@@ -1,5 +1,6 @@
 import logging
 
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 
 from pages.add_account_page import AddAccountPage
@@ -10,8 +11,6 @@ logger = logging.getLogger("app")
 
 
 class HomePage(BasePage):
-    url = 'https://ooek.od.ua/profile/'
-
     FORM_SECTION = (By.CLASS_NAME, ".form-section")
     HOUSEHOLD_CLIENT_TAB = (By.ID, "pills-home-tab")
     ADD_PERSONAL_ACCOUNT_CARD = (By.XPATH, "//a[@href='https://ooek.od.ua/profile1/']/div[@class='service']")
@@ -19,10 +18,14 @@ class HomePage(BasePage):
 
     def is_loaded(self) -> bool:
         """
-        Checks whether the home page was loaded
+        Checks whether the Home page is loaded
         :return: True if page was loaded, False otherwise
         """
-        return self.wait_for_element_visibility(self.HOUSEHOLD_CLIENT_TAB).is_displayed()
+        try:
+            client_tab_displayed = self.wait_for_element_visibility(self.HOUSEHOLD_CLIENT_TAB).is_displayed()
+            return client_tab_displayed
+        except TimeoutException:
+            return False
 
     def click_add_a_personal_account_card(self) -> AddAccountPage:
         """
