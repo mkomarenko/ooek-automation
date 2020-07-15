@@ -28,4 +28,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest --username=$TEST_USER --password=$TEST_PASSWORD
+            pytest --username=$TEST_USER --password=$TEST_PASSWORD --junitxml=test-results/oeek/ooek.xml
+      - store_test_results:
+          path: test-results
+

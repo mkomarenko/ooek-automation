@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="1" hostname="DESKTOP-8Q7COJK" name="pytest" skipped="0" tests="4" time="94.210" timestamp="2020-07-15T11:22:41.854752"><testcase classname="tests.account_test.TestAccount" file="tests\account_test.py" line="9" name="test_should_add_account" time="45.279"><failure message="AssertionError: assert &apos;This invoice already exists in Your account&apos; == &apos;Your invoice has been successfully added&apos;">self = &lt;tests.account_test.TestAccount object at 0x0000028C78031CA0&gt;
+driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session=&quot;19461d956ae5ca71a03d40ae9b1f49bc&quot;)&gt;
+credentials = (&apos;mkomarenko&apos;, &apos;Aw1np0mm1Db20&apos;)
+
+    def test_should_add_account(self, driver, credentials):
+        login_page = LoginPage(driver)
+        login_page.open()
+        home_page = login_page.do_login(credentials)
+        assert home_page.is_loaded()
+        add_account_page = home_page.click_add_a_personal_account_card()
+        assert add_account_page.is_loaded()
+        add_account_page.enter_personal_invoice(self.acc_number)
+        my_accounts_page = add_account_page.click_submit_a_personal_account()
+&gt;       assert my_accounts_page.get_success_invoice_alert_message() == &quot;Your invoice has been successfully added&quot;
+E       AssertionError: assert &apos;This invoice already exists in Your account&apos; == &apos;Your invoice has been successfully added&apos;
+
+tests\account_test.py:19: AssertionError</failure></testcase><testcase classname="tests.account_test.TestAccount" file="tests\account_test.py" line="20" name="test_should_open_my_accounts" time="8.338"></testcase><testcase classname="tests.account_test.TestAccount" file="tests\account_test.py" line="28" name="test_should_remove_account" time="16.955"></testcase><testcase classname="tests.login_test.TestLogin" file="tests\login_test.py" line="6" name="test_should_login" time="23.330"></testcase></testsuite></testsuites>
