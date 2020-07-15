@@ -9,8 +9,6 @@ logger = logging.getLogger("app")
 
 
 class AddAccountPage(BasePage):
-    url = 'https://ooek.od.ua/profile1/'
-
     PERSONAL_INVOICE_INPUT = (By.ID, "id_lsch")
     SUBMIT_PERSONAL_ACCOUNT_BTN = (By.ID, "getRequest")
 

@@ -11,9 +11,6 @@ logger = logging.getLogger("app")
 
 
 class MyAccountsPage(BasePage):
-
-    url = 'https://ooek.od.ua/score/'
-
     INVOICE_ALERT_INFO = (By.CLASS_NAME, "alert-info")
     MY_ACCOUNTS_TABLE_ROWS = (By.XPATH, "//div[@class='table-responsive-xl']/table/tbody/tr")
     CONFIRM_DELETE_ACCOUNT_BUTTON = (By.CSS_SELECTOR, "button.btn-outline-danger")

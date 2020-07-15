@@ -10,8 +10,6 @@ logger = logging.getLogger("app")
 
 
 class LoginPage(BasePage):
-    url = 'https://ooek.od.ua/user/'
-
     LOGIN_INPUT = (By.ID, "id_username")
     PASSWORD_INPUT = (By.ID, "id_password")
     SUBMIT_BUTTON = (By.XPATH, "//button[text()='Log in']")
@@ -21,10 +19,23 @@ class LoginPage(BasePage):
     OVERLAY_1 = (By.ID, "exampleinfouser")
     OVERLAY_2 = (By.ID, "exampleModalScrollablee")
 
-    def do_login(self, credentials: tuple) -> HomePage:
+    def is_loaded(self) -> bool:
+        """
+        Checks whether Login page is loaded
+        :return: True if login and password fields are displayed, False otherwise
+        """
+        try:
+            fields_are_displayed = self.wait_for_element_visibility(self.LOGIN_INPUT).is_displayed() and \
+                                   self.wait_for_element_visibility(self.PASSWORD_INPUT).is_displayed()
+            return fields_are_displayed
+        except TimeoutException:
+            return False
+
+    def login_with_credentials(self, username: str, password: str) -> HomePage:
         """
         Login to personal account
-        :param credentials: user credentials in the format (username, password)
+        :param username: user login
+        :param password: user password
         :return: Home page
         """
         do_not_show_button = self.wait_for_element_visibility(self.DO_NOT_SHOW_AGAIN_BUTTON_1)
@@ -38,12 +49,12 @@ class LoginPage(BasePage):
             do_not_show_button.click()
             self.wait_until_element_invisible(self.OVERLAY_1)
 
-        login = self.wait_until_element_is_clickable(self.LOGIN_INPUT)
-        login.clear()
-        login.send_keys(credentials[0])
-        password = self.wait_until_element_is_clickable(self.PASSWORD_INPUT)
-        password.clear()
-        password.send_keys(credentials[1])
+        login_el = self.wait_until_element_is_clickable(self.LOGIN_INPUT)
+        login_el.clear()
+        login_el.send_keys(username)
+        password_el = self.wait_until_element_is_clickable(self.PASSWORD_INPUT)
+        password_el.clear()
+        password_el.send_keys(password)
         self.wait_for_element_visibility(self.SUBMIT_BUTTON).click()
 
         do_not_show_button_2 = self.wait_for_element_visibility(self.DO_NOT_SHOW_AGAIN_BUTTON_2)
