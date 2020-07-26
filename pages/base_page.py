@@ -7,7 +7,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-logger = logging.getLogger("app")
+logger = logging.getLogger('ooek-e2e.{}'.format(__name__))
 
 
 class BasePage(object):

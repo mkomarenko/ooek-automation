@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.home_page import HomePage
 
-logger = logging.getLogger("app")
+logger = logging.getLogger('ooek-e2e.{}'.format(__name__))
 
 
 class LoginPage(BasePage):

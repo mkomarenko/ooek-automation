@@ -1,3 +1,6 @@
+import logging
+import logging.config
+
 import pytest
 from selenium.webdriver.chrome import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -55,6 +58,12 @@ def get_driver():
     web_driver = webdriver.WebDriver(executable_path=ChromeDriverManager().install())
     yield web_driver
     web_driver.quit()
+
+
+@pytest.yield_fixture(scope="session", autouse=True)
+def configure_logging():
+    logging.config.fileConfig(fname='config/logging.ini')
+    logging.getLogger('ooek-e2e')
 
 
 @pytest.yield_fixture(scope="module", autouse=True)

@@ -13,7 +13,7 @@ class TestAccount(BaseTest):
         assert home_page.is_loaded()
         add_account_page = home_page.click_add_a_personal_account_card()
         assert add_account_page.is_loaded()
-        add_account_page.enter_personal_invoice(self.acc_number)
+        add_account_page.enter_personal_account(self.acc_number)
         my_accounts_page = add_account_page.click_submit_a_personal_account()
         assert my_accounts_page.get_success_invoice_alert_message() == "Your invoice has been successfully added"
 
