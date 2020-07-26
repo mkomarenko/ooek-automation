@@ -21,7 +21,7 @@ class TestAccount(BaseTest):
         home_page = HomePage(session.driver)
         home_page.open(session.url)
         assert home_page.is_loaded()
-        my_accounts_page = home_page.click_my_accounts_button()
+        my_accounts_page = home_page.click_my_accounts_card()
         assert my_accounts_page.is_loaded()
         assert my_accounts_page.search_row_by_account_number(self.acc_number)
 
@@ -29,7 +29,7 @@ class TestAccount(BaseTest):
         home_page = HomePage(session.driver)
         home_page.open(session.url)
         assert home_page.is_loaded()
-        my_accounts_page = home_page.click_my_accounts_button()
+        my_accounts_page = home_page.click_my_accounts_card()
         assert my_accounts_page.is_loaded()
         my_accounts_page.press_remove_account(self.acc_number)
         expected_message = "You really want to remove the contract from your account \"{}".format(self.acc_number)
