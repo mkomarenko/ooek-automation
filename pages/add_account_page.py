@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.my_accounts_page import MyAccountsPage
 
-logger = logging.getLogger("app")
+logger = logging.getLogger('ooek-e2e')
 
 
 class AddAccountPage(BasePage):
@@ -19,14 +19,14 @@ class AddAccountPage(BasePage):
         """
         return self.wait_for_element_visibility(self.SUBMIT_PERSONAL_ACCOUNT_BTN).is_displayed()
 
-    def enter_personal_invoice(self, value: str) -> None:
+    def enter_personal_account(self, value: str) -> None:
         """
         Enter personal invoice on add personal account form
         :param value: personal invoice in the format *****/*******
         :return: None
         """
         element = self.wait_until_element_is_clickable(self.PERSONAL_INVOICE_INPUT)
-        logger.info("Enter personal invoice number:".format(value))
+        logger.info("Enter personal account number: {}".format(value))
         element.send_keys(value)
 
     def click_submit_a_personal_account(self) -> MyAccountsPage:

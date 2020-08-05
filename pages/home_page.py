@@ -7,7 +7,7 @@ from pages.add_account_page import AddAccountPage
 from pages.base_page import BasePage
 from pages.my_accounts_page import MyAccountsPage
 
-logger = logging.getLogger("app")
+logger = logging.getLogger('ooek-e2e')
 
 
 class HomePage(BasePage):
@@ -23,8 +23,10 @@ class HomePage(BasePage):
         """
         try:
             client_tab_displayed = self.wait_for_element_visibility(self.HOUSEHOLD_CLIENT_TAB).is_displayed()
+            logger.debug("Client tab is displayed. Home page was successfully loaded")
             return client_tab_displayed
-        except TimeoutException:
+        except TimeoutException as e:
+            logger.error("Client tab is not displayed. Home page may not be loaded. {}".format(str(e)))
             return False
 
     def click_add_a_personal_account_card(self) -> AddAccountPage:
@@ -32,13 +34,23 @@ class HomePage(BasePage):
         Click Add Personal Account card on the household client menu
         :return: Add Account page
         """
-        self.wait_until_element_is_clickable(self.ADD_PERSONAL_ACCOUNT_CARD).click()
-        return AddAccountPage(self.driver)
+        try:
+            self.wait_until_element_is_clickable(self.ADD_PERSONAL_ACCOUNT_CARD).click()
+            logger.info("Clicking 'Add Personal Account'")
+            return AddAccountPage(self.driver)
+        except TimeoutException as e:
+            logger.error("Error while clicking 'Add Personal Account' card. ".format(str(e)))
+            raise
 
-    def click_my_accounts_button(self):
+    def click_my_accounts_card(self):
         """
         Click My Accounts card on the household client menu
         :return:  My Accounts page
         """
-        self.wait_until_element_is_clickable(self.MY_ACCOUNTS_CARD).click()
-        return MyAccountsPage(self.driver)
+        try:
+            self.wait_until_element_is_clickable(self.MY_ACCOUNTS_CARD).click()
+            logger.info("Clicking 'My Accounts'")
+            return MyAccountsPage(self.driver)
+        except TimeoutException as e:
+            logger.error("Error while clicking 'My Accounts' card. ".format(str(e)))
+            raise
