@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from pages.home_page import HomePage
 
-logger = logging.getLogger('ooek-e2e.{}'.format(__name__))
+logger = logging.getLogger('ooek-e2e')
 
 
 class LoginPage(BasePage):
@@ -40,7 +40,7 @@ class LoginPage(BasePage):
         """
         do_not_show_button = self.wait_for_element_visibility(self.DO_NOT_SHOW_AGAIN_BUTTON_1)
         do_not_show_button.click()
-        logger.info("Clicking 'Do not show again' button on Login page opening")
+        logger.debug("Clicking 'Do not show again' button on Login page opening")
         try:
             self.wait_until_element_invisible(self.OVERLAY_1)
         except TimeoutException:
@@ -58,7 +58,7 @@ class LoginPage(BasePage):
         self.wait_for_element_visibility(self.SUBMIT_BUTTON).click()
 
         do_not_show_button_2 = self.wait_for_element_visibility(self.DO_NOT_SHOW_AGAIN_BUTTON_2)
-        logger.info("Clicking 'Do not show again' button after login")
+        logger.debug("Clicking 'Do not show again' button after login")
         do_not_show_button_2.click()
         try:
             self.wait_until_element_invisible(self.OVERLAY_2)

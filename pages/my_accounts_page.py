@@ -7,7 +7,7 @@ from selenium.webdriver.remote.webelement import WebElement
 
 from pages.base_page import BasePage
 
-logger = logging.getLogger('ooek-e2e.{}'.format(__name__))
+logger = logging.getLogger('ooek-e2e')
 
 
 class MyAccountsPage(BasePage):

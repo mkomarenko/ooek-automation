@@ -7,7 +7,7 @@ from pages.add_account_page import AddAccountPage
 from pages.base_page import BasePage
 from pages.my_accounts_page import MyAccountsPage
 
-logger = logging.getLogger('ooek-e2e.{}'.format(__name__))
+logger = logging.getLogger('ooek-e2e')
 
 
 class HomePage(BasePage):
