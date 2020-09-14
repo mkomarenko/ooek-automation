@@ -5,6 +5,7 @@ import os
 import pytest
 from selenium.webdriver.chrome import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 from fixture.session import Session
 
@@ -27,6 +28,12 @@ def pytest_addoption(parser):
         action="store",
         default='',
         help="testing user password",
+    )
+    parser.addoption(
+        "--driver",
+        action="store",
+        default='chrome',
+        help="driver type",
     )
 
 
@@ -54,9 +61,25 @@ def get_password(request):
     return password
 
 
-@pytest.yield_fixture(scope="module", autouse=True)
-def get_driver():
-    web_driver = webdriver.WebDriver(executable_path=ChromeDriverManager().install())
+def get_driver(request):
+    driver = request.config.getoption('--driver')
+    if not driver:
+        raise ValueError("Pytest option 'driver' is missing or empty. Please specify driver like this:"
+                         "--driver=<driver>")
+    elif driver not in ['chrome', 'firefox']:
+        raise ValueError('"{}" is not a supported driver type"'.format(driver))
+    return driver
+
+
+@pytest.yield_fixture
+def browser(request):
+    driver = get_driver(request)
+    if driver == 'chrome':
+        web_driver = webdriver.WebDriver(executable_path=ChromeDriverManager().install())
+    elif driver == 'firefox':
+        web_driver = webdriver.WebDriver(executable_path=GeckoDriverManager().install())
+    else:
+        raise ValueError('"{}" is not a supported driver type"'.format(driver))
     yield web_driver
     web_driver.quit()
 
@@ -73,13 +96,13 @@ def configure_logging():
     logging.getLogger('ooek-e2e')
 
 
-@pytest.yield_fixture(scope="module", autouse=True)
-def session(request, get_driver):
-    driver = get_driver
+@pytest.yield_fixture(autouse=True)
+def session(request, browser):
     url = get_url(request)
     username = get_username(request)
     password = get_password(request)
-    current_session = Session(driver, url, username, password)
+
+    current_session = Session(browser, url, username, password)
     if not request.module.__name__ == 'tests.login_test':
         current_session.login_if_required()
     yield current_session
