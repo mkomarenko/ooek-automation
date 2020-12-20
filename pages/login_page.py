@@ -12,7 +12,7 @@ logger = logging.getLogger('ooek-e2e')
 class LoginPage(BasePage):
     LOGIN_INPUT = (By.ID, "id_username")
     PASSWORD_INPUT = (By.ID, "id_password")
-    SUBMIT_BUTTON = (By.XPATH, "//button[text()='Log in']")
+    SUBMIT_BUTTON = (By.CSS_SELECTOR, ".btn[type='submit']")
     DO_NOT_SHOW_AGAIN_BUTTON_1 = (By.XPATH, "//button[@id='infouser' and not(@disabled)]")
     DO_NOT_SHOW_AGAIN_BUTTON_2 = (By.XPATH, "//button[@id='modal-yes' and not(@disabled)]")
     DO_NOT_SHOW_AGAIN_BUTTON_3 = (By.XPATH, "//button[@id='infouserlsch' and not(@disabled)]")
