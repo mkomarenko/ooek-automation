@@ -50,9 +50,11 @@ class LoginPage(BasePage):
             self.wait_until_element_invisible(self.OVERLAY_1)
 
         login_el = self.wait_until_element_is_clickable(self.LOGIN_INPUT)
+        logger.debug("Entering user name: {}".format(username))
         login_el.clear()
         login_el.send_keys(username)
         password_el = self.wait_until_element_is_clickable(self.PASSWORD_INPUT)
+        logger.debug("Entering password: ****")
         password_el.clear()
         password_el.send_keys(password)
         self.wait_for_element_visibility(self.SUBMIT_BUTTON).click()
