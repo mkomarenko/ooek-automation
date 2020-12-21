@@ -34,5 +34,7 @@ class AddAccountPage(BasePage):
         Click submit button on Add a Personal Account form
         :return: My Accounts page
         """
-        self.wait_until_element_is_clickable(self.SUBMIT_PERSONAL_ACCOUNT_BTN).click()
+        submit_btn = self.wait_until_element_is_clickable(self.SUBMIT_PERSONAL_ACCOUNT_BTN)
+        logger.info("Clicking 'Submit personal account' button")
+        submit_btn.click()
         return MyAccountsPage(self.driver)

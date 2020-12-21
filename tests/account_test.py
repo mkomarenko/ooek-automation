@@ -20,7 +20,6 @@ class TestAccount(BaseTest):
         home_page.open(session.url)
         assert home_page.is_loaded()
         my_accounts_page = home_page.click_my_accounts_card()
-        assert my_accounts_page.is_loaded()
         assert my_accounts_page.search_row_by_account_number(self.ACCOUNT_NUM)
 
     def test_should_remove_account(self, session):
@@ -28,9 +27,9 @@ class TestAccount(BaseTest):
         home_page.open(session.url)
         assert home_page.is_loaded()
         my_accounts_page = home_page.click_my_accounts_card()
-        assert my_accounts_page.is_loaded()
+        # assert my_accounts_page.is_loaded()
         my_accounts_page.press_remove_account(self.ACCOUNT_NUM)
-        # expected_message = "You really want to remove the contract from your account \"{}".format(self.ACCOUNT_NUM)
-        # assert expected_message in my_accounts_page.get_remove_account_confirm_message()
+        expected_message = "You really want to remove the contract from your account \"{}".format(self.ACCOUNT_NUM)
+        assert expected_message in my_accounts_page.get_remove_account_confirm_message()
         my_accounts_page.confirm_remove_account()
         assert my_accounts_page.search_row_by_account_number(self.ACCOUNT_NUM) is None

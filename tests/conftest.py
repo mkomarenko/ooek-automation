@@ -10,18 +10,11 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 from fixture.session import Session
 
+REPORT_TITLE = 'OOEK Automation Report'
 CONFIG_PATH = 'config/config.json'
 SUPPORTED_BROWSERS = ['chrome', 'firefox']
 LOG_CONFIG = 'config/logging.ini'
 LOGGER_NAME = 'ooek-e2e'
-
-
-@pytest.fixture(scope='session')
-def config():
-    # Read the JSON config file and returns it as a parsed dict
-    with open(CONFIG_PATH) as config_file:
-        data = json.load(config_file)
-    return data
 
 
 def pytest_addoption(parser):
@@ -49,6 +42,18 @@ def pytest_addoption(parser):
         default='chrome',
         help="driver type",
     )
+
+
+def pytest_html_report_title(report):
+    report.title = REPORT_TITLE
+
+
+@pytest.fixture(scope='session')
+def config():
+    # Read the JSON config file and returns it as a parsed dict
+    with open(CONFIG_PATH) as config_file:
+        data = json.load(config_file)
+        return data
 
 
 def get_url(request):

@@ -59,3 +59,10 @@ class BasePage(object):
         :return: list of elements
         """
         return WebDriverWait(self.driver, wait_time).until(EC.visibility_of_all_elements_located(locator))
+
+    def find_elements(self, page, *strategy_and_locator):
+        if len(strategy_and_locator) < 2:
+            raise Exception("Ooops... Looks like you forgot to pass either page - actual is: {}, locator "
+                            "strategy or locator - actual is: {}".format(page, strategy_and_locator))
+
+        return self.driver.find_elements(*strategy_and_locator)

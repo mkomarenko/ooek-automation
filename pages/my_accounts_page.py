@@ -12,6 +12,7 @@ logger = logging.getLogger('ooek-e2e')
 
 class MyAccountsPage(BasePage):
     INVOICE_ALERT_INFO = (By.CLASS_NAME, "alert-info")
+    MY_ACCOUNTS_TABLE = (By.XPATH, "//div[@class='table-responsive-xl']")
     MY_ACCOUNTS_TABLE_ROWS = (By.XPATH, "//div[@class='table-responsive-xl']/table/tbody/tr")
     CONFIRM_DELETE_ACCOUNT_BUTTON = (By.CSS_SELECTOR, "button.btn-outline-danger")
     REMOVE_ACCOUNT_CONFIRM_MESSAGE = (By.XPATH, "//div[@class = 'form-section']/h2")
@@ -21,7 +22,7 @@ class MyAccountsPage(BasePage):
         Checks if the page was loaded
         :return: True if page was loaded, False otherwise
         """
-        return self.get_my_accounts_table_rows()[0].is_displayed()
+        return len(self.get_my_accounts_table_rows()) > 0
 
     def get_success_invoice_alert_message(self) -> str:
         """
@@ -41,7 +42,9 @@ class MyAccountsPage(BasePage):
         Method that retrieve all rows from my accounts table
         :return: list of WebElements
         """
-        return self.find_elements_with_wait(self.MY_ACCOUNTS_TABLE_ROWS)
+        logger.info("Waiting for accounts table to be displayed")
+        accounts_tbl = self.wait_for_element_visibility(self.MY_ACCOUNTS_TABLE)
+        return accounts_tbl.find_elements(By.XPATH, './table/tbody/tr')
 
     def search_row_by_account_number(self, account_num: str) -> Union[WebElement, None]:
         """
@@ -49,12 +52,13 @@ class MyAccountsPage(BasePage):
         :param account_num: account number to search for
         :return: table row element if account is found, None otherwise
         """
+        logger.info("Start searching through all rows in accounts table")
         for row in self.get_my_accounts_table_rows():
             account_col_el = row.find_element(By.XPATH, "./td[1]")
             if account_col_el.text == account_num:
                 logger.info("Found row with account number: {}".format(account_num))
                 return row
-        logger.warning("A row with a specified account number was not found")
+        logger.warning("A row with account number '{}' was not found".format(account_num))
 
     def press_remove_account(self, acc_number: str) -> None:
         """
@@ -90,4 +94,6 @@ class MyAccountsPage(BasePage):
         Click 'Yes, delete' account button
         :return: None
         """
-        self.wait_for_element_visibility(self.CONFIRM_DELETE_ACCOUNT_BUTTON).click()
+        confirm_btn = self.wait_for_element_visibility(self.CONFIRM_DELETE_ACCOUNT_BUTTON)
+        logger.info("Clicking 'Confirm account removal' button")
+        confirm_btn.click()

@@ -54,7 +54,7 @@ class LoginPage(BasePage):
         login_el.clear()
         login_el.send_keys(username)
         password_el = self.wait_until_element_is_clickable(self.PASSWORD_INPUT)
-        logger.debug("Entering password: ****")
+        logger.debug("Entering password: *****")
         password_el.clear()
         password_el.send_keys(password)
         self.wait_for_element_visibility(self.SUBMIT_BUTTON).click()
