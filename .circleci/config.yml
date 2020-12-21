@@ -28,10 +28,10 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            pytest --url=$FRONTEND_URL --username=$TEST_USER --password=$TEST_PASSWORD --junitxml=test-results/oeek/ooek.xml --html=report.html
+            pytest --url=$FRONTEND_URL --username=$TEST_USER --password=$TEST_PASSWORD --junitxml=test-results/oeek/ooek.xml --html=test-report/report.html
       - store_test_results:
           path: test-results
       - store_artifacts:
           path: logs
       - store_artifacts:
-          path: report.html
+          path: test-report
